@@ -4,7 +4,7 @@ import time
 books_catalog = [
     {'title': 'Python Programming', 'author': 'John Doe', 'available': True},
     {'title': 'Data Structures and Algorithms', 'author': 'Jane Smith', 'available': True},
-    {'title': 'Machine Learning Basics', 'author': 'Alex Brown', 'available': True}
+    {'title': 'Machine Learning Basics', 'author': 'Alex Brown', 'availabl True}
 ]
 
 # Sample Users (in-memory)
