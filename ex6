@@ -1,0 +1,113 @@
+import time
+
+# Sample Book Catalog
+books_catalog = [
+    {'title': 'Python Programming', 'author': 'John Doe', 'available': True},
+    {'title': 'Data Structures and Algorithms', 'author': 'Jane Smith', 'available': True},
+    {'title': 'Machine Learning Basics', 'author': 'Alex Brown', 'available': True}
+]
+
+# Sample Users (in-memory)
+users = {}
+
+# Function to display the list of available books
+def show_books():
+    print("\nAvailable Books:")
+    for idx, book in enumerate(books_catalog):
+        if book['available']:
+            print(f"{idx + 1}. {book['title']} by {book['author']}")
+        else:
+            print(f"{idx + 1}. {book['title']} (Currently Borrowed)")
+
+# Function to borrow a book
+def borrow_book(user):
+    show_books()
+    try:
+        book_choice = int(input("\nEnter the number of the book you want to borrow: ")) - 1
+        if books_catalog[book_choice]['available']:
+            books_catalog[book_choice]['available'] = False
+            print(f"\nYou have successfully borrowed '{books_catalog[book_choice]['title']}'.")
+        else:
+            print("\nSorry, this book is already borrowed.")
+    except (ValueError, IndexError):
+        print("\nInvalid input. Please choose a valid book number.")
+
+# Function to return a book
+def return_book(user):
+    show_books()
+    try:
+        book_choice = int(input("\nEnter the number of the book you want to return: ")) - 1
+        if not books_catalog[book_choice]['available']:
+            books_catalog[book_choice]['available'] = True
+            print(f"\nYou have successfully returned '{books_catalog[book_choice]['title']}'.")
+        else:
+            print("\nThis book wasn't borrowed.")
+    except (ValueError, IndexError):
+        print("\nInvalid input. Please choose a valid book number.")
+
+# Function to create a new user account
+def create_account():
+    print("\nCreate your account")
+    username = input("Enter a username: ")
+    if username in users:
+        print("This username already exists. Please try again.")
+        return
+    password = input("Enter a password: ")
+    users[username] = {'password': password, 'borrowed_books': []}
+    print("\nAccount created successfully!")
+
+# Function to log in
+def login():
+    print("\nLogin to your account")
+    username = input("Enter your username: ")
+    if username not in users:
+        print("No such account. Please create an account first.")
+        return None
+    password = input("Enter your password: ")
+    if users[username]['password'] != password:
+        print("Incorrect password.")
+        return None
+    print(f"\nWelcome back, {username}!")
+    return username
+
+# Main function to drive the library system
+def main():
+    print("Welcome to the E-Library System!")
+    
+    while True:
+        print("\n1. Create Account")
+        print("2. Login")
+        print("3. Exit")
+        choice = input("Choose an option: ")
+
+        if choice == '1':
+            create_account()
+        elif choice == '2':
+            user = login()
+            if user:
+                while True:
+                    print("\n1. Show Books")
+                    print("2. Borrow Book")
+                    print("3. Return Book")
+                    print("4. Logout")
+                    option = input("Choose an option: ")
+
+                    if option == '1':
+                        show_books()
+                    elif option == '2':
+                        borrow_book(user)
+                    elif option == '3':
+                        return_book(user)
+                    elif option == '4':
+                        print("\nLogging out...")
+                        break
+                    else:
+                        print("\nInvalid option. Please choose again.")
+        elif choice == '3':
+            print("\nThank you for using the E-Library System!")
+            break
+        else:
+            print("\nInvalid option. Please choose again.")
+
+if __name__ == "__main__":
+    main()
